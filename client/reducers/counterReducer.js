@@ -1,4 +1,4 @@
-import INCREMENT_COUNTER from '../actions/types';
+import { INCREMENT_COUNTER } from '../actions/types';
 
 const INITIAL_STATE = {
   counter: 0
