@@ -16,7 +16,14 @@ const MODAL_COMPONENTS = {
 const ModalRoot = ({ SpecificModal, modalProps, modalType, $toggleModal, modalOpen }) => (
   <BodyEnd show={modalOpen} animationOnUnMount>
     <Modal modalType={modalType} modalOpen={modalOpen} toggleModal={$toggleModal}>
-      { SpecificModal ? <SpecificModal {...modalProps} /> : null }
+      {
+        SpecificModal ?
+          <SpecificModal
+            toggleModal={$toggleModal}
+            modalType={modalType}
+            {...modalProps}
+          /> : null
+      }
     </Modal>
   </BodyEnd>
 );

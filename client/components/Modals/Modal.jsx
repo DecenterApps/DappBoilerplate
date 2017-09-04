@@ -10,6 +10,12 @@ class Modal extends PureComponent {
     this.state = { showBackdrop: false, children: null };
   }
 
+  componentWillMount() {
+    document.addEventListener('keydown', (event) => {
+      if (event.keyCode === 27) this.props.toggleModal();
+    });
+  }
+
   componentWillReceiveProps(newProps) {
     if (!newProps.modalOpen) {
       this.setState({ showBackdrop: false });
@@ -21,6 +27,10 @@ class Modal extends PureComponent {
       this.setState({ children: newProps.children, showBackdrop: true });
       document.body.classList.toggle('modal-open', true);
     }, 150);
+  }
+
+  componentWillUnmount() {
+    document.removeEventListener('keydown', this.props.toggleModal);
   }
 
   render() {
