@@ -5,6 +5,7 @@ import Tooltip from 'react-tooltip-lite';
 import { increment } from '../../actions/counterActions';
 import ModalRoot, { EXAMPLE_MODAL } from '../Modals/ModalRoot';
 import toggleModal from '../../actions/modalsActions';
+import ExampleForm from '../Form/ExampleForm';
 
 const styles = require('./app.scss');
 
@@ -25,6 +26,11 @@ const App = ({ $increment, counter, $toggleModal }) => (
       >
         Example tooltip
       </Tooltip>
+
+      <div>
+        <h2>Form example</h2>
+        <ExampleForm />
+      </div>
     </span>
   </div>
 );

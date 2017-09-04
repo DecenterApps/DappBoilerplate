@@ -3,9 +3,9 @@ import PropTypes from 'prop-types';
 import ModalHeader from '../ModalHeader';
 import ModalBody from '../ModalBody';
 
-const ExampleModal = ({ toggleModal, modalType }) => (
+const ExampleModal = ({ toggleModal }) => (
   <div>
-    <ModalHeader toggleModal={toggleModal} modalType={modalType} />
+    <ModalHeader toggleModal={toggleModal} />
     <ModalBody>
         Lorem ipsum dolor sit amet, consectetur adipiscing elit.
         Etiam vulputate quam quis nunc mattis dictum.
@@ -50,8 +50,7 @@ const ExampleModal = ({ toggleModal, modalType }) => (
 );
 
 ExampleModal.propTypes = {
-  toggleModal: PropTypes.func.isRequired,
-  modalType: PropTypes.string.isRequired,
+  toggleModal: PropTypes.func.isRequired
 };
 
 export default ExampleModal;

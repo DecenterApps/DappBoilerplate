@@ -7,7 +7,7 @@ class Modal extends PureComponent {
   constructor(props) {
     super(props);
 
-    this.state = { showBackdrop: false, children: null };
+    this.state = { children: null };
   }
 
   componentWillMount() {
@@ -18,15 +18,14 @@ class Modal extends PureComponent {
 
   componentWillReceiveProps(newProps) {
     if (!newProps.modalOpen) {
-      this.setState({ showBackdrop: false });
-      return document.body.classList.toggle('modal-open', false);
+      return setTimeout(() => {
+        this.setState({ children: null });
+        return document.body.classList.toggle('modal-open', false);
+      }, 150);
     }
 
-    // small delay in order to see the fade in animation
-    return setTimeout(() => {
-      this.setState({ children: newProps.children, showBackdrop: true });
-      document.body.classList.toggle('modal-open', true);
-    }, 150);
+    this.setState({ children: newProps.children });
+    return document.body.classList.toggle('modal-open', true);
   }
 
   componentWillUnmount() {
@@ -36,10 +35,10 @@ class Modal extends PureComponent {
   render() {
     return (
       <div
-        className={`${mStyle['modal-backdrop']} ${this.state.showBackdrop ? mStyle.open : ''}`}
+        className={`${mStyle['modal-backdrop']} ${this.props.modalOpen ? mStyle.open : ''}`}
         role="button"
         tabIndex={0}
-        onClick={() => { this.props.toggleModal(this.props.modalType, {}, false); }}
+        onClick={() => { this.props.toggleModal('', {}, false); }}
       >
         <div
           role="dialog"
@@ -54,8 +53,8 @@ class Modal extends PureComponent {
 }
 
 Modal.propTypes = {
-  modalType: PropTypes.string.isRequired,
-  toggleModal: PropTypes.func.isRequired
+  toggleModal: PropTypes.func.isRequired,
+  modalOpen: PropTypes.bool.isRequired
 };
 
 export default Modal;

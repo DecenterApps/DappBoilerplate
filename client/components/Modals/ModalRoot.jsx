@@ -2,7 +2,6 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import ExampleModal from './ExampleModal/ExampleModal';
-import BodyEnd from '../BodyEnd/BodyEnd';
 import Modal from './Modal';
 import toggleModal from '../../actions/modalsActions';
 
@@ -14,18 +13,16 @@ const MODAL_COMPONENTS = {
 };
 
 const ModalRoot = ({ SpecificModal, modalProps, modalType, $toggleModal, modalOpen }) => (
-  <BodyEnd show={modalOpen} animationOnUnMount>
-    <Modal modalType={modalType} modalOpen={modalOpen} toggleModal={$toggleModal}>
-      {
-        SpecificModal ?
-          <SpecificModal
-            toggleModal={$toggleModal}
-            modalType={modalType}
-            {...modalProps}
-          /> : null
-      }
-    </Modal>
-  </BodyEnd>
+  <Modal modalOpen={modalOpen} toggleModal={$toggleModal}>
+    {
+      SpecificModal ?
+        <SpecificModal
+          toggleModal={$toggleModal}
+          modalType={modalType}
+          {...modalProps}
+        /> : null
+    }
+  </Modal>
 );
 
 ModalRoot.defaultProps = {
