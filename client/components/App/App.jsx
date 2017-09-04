@@ -1,6 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
+import Tooltip from 'react-tooltip-lite';
 import { increment } from '../../actions/counterActions';
 import ModalRoot, { EXAMPLE_MODAL } from '../Modals/ModalRoot';
 import toggleModal from '../../actions/modalsActions';
@@ -11,9 +12,20 @@ const App = ({ $increment, counter, $toggleModal }) => (
   <div className={styles.app}>
     <ModalRoot />
 
-    <h1>Hello World {counter}</h1>
-    <button onClick={$increment}>Click</button>
-    <button onClick={() => { $toggleModal(EXAMPLE_MODAL, {}, true); }}>Open example modal</button>
+    <h1>Counter {counter}</h1>
+    <button onClick={$increment}>Increment</button>
+    <div>
+      <button onClick={() => { $toggleModal(EXAMPLE_MODAL, {}, true); }}>Open example modal</button>
+    </div>
+    <span>
+      <Tooltip
+        tagName="span"
+        useDefaultStyles
+        content="Example tooltip text"
+      >
+        Example tooltip
+      </Tooltip>
+    </span>
   </div>
 );
 
