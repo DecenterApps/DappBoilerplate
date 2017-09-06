@@ -35,3 +35,13 @@ a {
   height: 100%;
   overflow: hidden;
 }
+
+.example-section {
+  h3 {
+    text-decoration: underline;
+  }
+
+  button {
+    margin-right: 10px;
+  }
+}

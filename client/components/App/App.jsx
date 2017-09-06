@@ -13,25 +13,36 @@ const App = ({ $increment, counter, $toggleModal }) => (
   <div styleName="app">
     <ModalRoot />
 
-    <h1>Counter {counter}</h1>
-    <button onClick={$increment}>Increment</button>
-    <div>
-      <button onClick={() => { $toggleModal(EXAMPLE_MODAL, {}, true); }}>Open example modal</button>
+    <div styleName="example-section">
+      <h3>Redux action example</h3>
+
+      <button onClick={$increment}>Increment</button>
+      <span>Counter: {counter}</span>
     </div>
-    <span>
+
+    <div styleName="example-section">
+      <h3>Modal example</h3>
+
+      <button onClick={() => { $toggleModal(EXAMPLE_MODAL, {}, true); }}>Open modal</button>
+    </div>
+
+    <div styleName="example-section">
+      <h3>Tooltip example</h3>
+
       <Tooltip
         tagName="span"
         useDefaultStyles
         content="Example tooltip text"
       >
-        Example tooltip
+        Hover over me
       </Tooltip>
+    </div>
 
-      <div>
-        <h2>Form example</h2>
-        <ExampleForm />
-      </div>
-    </span>
+    <div styleName="example-section">
+      <h3>Form example</h3>
+
+      <ExampleForm />
+    </div>
   </div>
 );
 

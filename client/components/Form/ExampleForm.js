@@ -3,7 +3,7 @@ import { Field, reduxForm } from 'redux-form';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import InputComponent from './InputComponent';
-import './forms.scss';
+import formStyle from './forms.scss';
 
 const exampleFormValidator = (values) => {
   const errors = {};
@@ -15,16 +15,16 @@ const exampleFormValidator = (values) => {
 };
 
 let ExampleForm = ({ handleSubmit, pristine, invalid }) => (
-  <form onSubmit={handleSubmit}>
+  <form onSubmit={handleSubmit} styleName="form-wrapper">
     <Field
       name="username"
       showErrorText
       component={InputComponent}
       placeholder="Username"
       type="text"
-      wrapperClassName="form-item-wrapper"
-      inputClassName="form-item"
-      errorClassName="form-item-error"
+      wrapperClassName={formStyle['form-item-wrapper']}
+      inputClassName={formStyle['form-item']}
+      errorClassName={formStyle['form-item-error']}
     />
 
     <Field
@@ -33,9 +33,9 @@ let ExampleForm = ({ handleSubmit, pristine, invalid }) => (
       component={InputComponent}
       placeholder="Password"
       type="text"
-      wrapperClassName="form-item-wrapper"
-      inputClassName="form-item"
-      errorClassName="form-item-error"
+      wrapperClassName={formStyle['form-item-wrapper']}
+      inputClassName={formStyle['form-item']}
+      errorClassName={formStyle['form-item-error']}
     />
 
     <button
@@ -54,8 +54,6 @@ ExampleForm.propTypes = {
   invalid: PropTypes.bool.isRequired
 };
 
-const validate = exampleFormValidator;
+ExampleForm = reduxForm({ form: 'exampleForm', validate: exampleFormValidator })(ExampleForm);
 
-ExampleForm = reduxForm({ form: 'exampleForm', validate })(ExampleForm);
-
-export default connect(null, { onSubmit: () => (dispatch) => { console.log('submit', dispatch); } })(ExampleForm);
+export default connect(null, { onSubmit: () => (dispatch) => { console.log('action goes here', dispatch); } })(ExampleForm);
