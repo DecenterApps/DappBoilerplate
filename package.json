@@ -5,9 +5,13 @@
   "repository": "https://github.com/DecenterApps/DecenterHackaton.git",
   "license": "MIT",
   "scripts": {
-    "dev": "webpack-dev-server --history-api-fallback --compress --config ./webpack/webpack-dev.config.js",
+    "dev-server": "webpack-dev-server --config ./webpack/webpack-dev.config.js --env.eslint",
+    "prod-server": "webpack-dev-server --config ./webpack/webpack-prod.config.js",
     "prod": "webpack --config ./webpack/webpack-prod.config.js",
-    "prod-serve": "webpack-dev-server --history-api-fallback --compress --config ./webpack/webpack-prod.config.js"
+
+    "dev-server-no-lint": "webpack-dev-server --config ./webpack/webpack-dev.config.js --env.eslint false",
+    "prod-server-no-lint": "webpack-dev-server --config ./webpack/webpack-prod.config.js --env.eslint false",
+    "prod-no-lint": "webpack-dev-server --config ./webpack/webpack-dev.config.js --env.eslint false"
   },
   "dependencies": {
     "autoprefixer-loader": "^3.2.0",

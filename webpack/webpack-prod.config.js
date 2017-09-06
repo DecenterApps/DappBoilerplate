@@ -47,7 +47,7 @@ const generateScopedName = (localName, resourcePath) => {
   return `${uniqueIdGenerator(componentName)}_${uniqueIdGenerator(localName)}`;
 };
 
-module.exports = {
+const config = {
   entry: './client/index.js',
   output: {
     path: path.resolve('dist'),
@@ -101,6 +101,7 @@ module.exports = {
               modules: true
             }
           },
+          { loader: 'resolve-url-loader' },
           { loader: 'sass-loader' },
           {
             loader: 'autoprefixer-loader',
@@ -108,7 +109,6 @@ module.exports = {
               browsers: 'last 4 version'
             }
           },
-          { loader: 'resolve-url-loader' }
         ],
         test: /\.scss?$/
       },
@@ -141,4 +141,12 @@ module.exports = {
       }
     })
   ]
+};
+
+module.exports = (env) => {
+  if (env.eslint !== 'false') {
+    config.module.loaders[0].use.push({ loader: 'eslint-loader' });
+  }
+
+  return config;
 };

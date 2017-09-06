@@ -16,7 +16,7 @@ const HtmlWebpackPluginConfig = new HtmlWebpackPlugin({
   inject: 'body'
 });
 
-module.exports = {
+const config = {
   entry: './client/index.js',
   devtool: 'inline-source-map',
   output: {
@@ -70,6 +70,7 @@ module.exports = {
               sourceMap: true
             }
           },
+          { loader: 'resolve-url-loader' },
           {
             loader: 'sass-loader',
             options: {
@@ -83,7 +84,6 @@ module.exports = {
               browsers: 'last 4 version'
             }
           },
-          { loader: 'resolve-url-loader' }
         ],
         test: /\.scss?$/
       },
@@ -106,4 +106,12 @@ module.exports = {
       process: { env: '"development"' }
     })
   ]
+};
+
+module.exports = (env) => {
+  if (env.eslint !== 'false') {
+    config.module.loaders[0].use.push({ loader: 'eslint-loader' });
+  }
+
+  return config;
 };
