@@ -7,10 +7,10 @@ import ModalRoot, { EXAMPLE_MODAL } from '../Modals/ModalRoot';
 import toggleModal from '../../actions/modalsActions';
 import ExampleForm from '../Form/ExampleForm';
 
-const styles = require('./app.scss');
+import './app.scss';
 
 const App = ({ $increment, counter, $toggleModal }) => (
-  <div className={styles.app}>
+  <div styleName="app">
     <ModalRoot />
 
     <h1>Counter {counter}</h1>

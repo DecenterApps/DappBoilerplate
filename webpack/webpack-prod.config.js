@@ -2,14 +2,50 @@ const path = require('path');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const webpack = require('webpack');
 const CleanPlugin = require('clean-webpack-plugin');
-const ExtractTextPlugin = require('extract-text-webpack-plugin');
-const OptimizeCssAssetsPlugin = require('optimize-css-assets-webpack-plugin');
+
+const context = path.resolve(__dirname, '../client');
 
 const HtmlWebpackPluginConfig = new HtmlWebpackPlugin({
   template: './client/index.html',
   filename: 'index.html',
   inject: 'body'
 });
+
+const incstr = require('incstr');
+
+const createUniqueIdGenerator = () => {
+  const index = {};
+
+  const generateNextId = incstr.idGenerator({
+    // Removed "d" letter to avoid accidental "ad" construct
+    alphabet: 'abcefghijklmnopqrstuvwxyz0123456789'
+  });
+
+  return (name) => {
+    if (index[name]) {
+      return index[name];
+    }
+
+    let nextId;
+
+    do {
+      // Class name cannot start with a number.
+      nextId = generateNextId();
+    } while (/^[0-9]/.test(nextId));
+
+    index[name] = generateNextId();
+
+    return index[name];
+  };
+};
+
+const uniqueIdGenerator = createUniqueIdGenerator();
+
+const generateScopedName = (localName, resourcePath) => {
+  const componentName = resourcePath.split('/').slice(-2, -1);
+
+  return `${uniqueIdGenerator(componentName)}_${uniqueIdGenerator(localName)}`;
+};
 
 module.exports = {
   entry: './client/index.js',
@@ -20,8 +56,62 @@ module.exports = {
   },
   module: {
     loaders: [
-      { test: /\.js$/, loaders: ['babel-loader', 'eslint-loader'], exclude: /node_modules/ },
-      { test: /\.jsx$/, loaders: ['babel-loader', 'eslint-loader'], exclude: /node_modules/ },
+      {
+        test: /\.js[x]?$/,
+        include: path.resolve(__dirname, '../client'),
+        use: [
+          {
+            loader: 'babel-loader',
+            query: {
+              presets: ['es2015', 'react'],
+              plugins: [
+                'transform-object-rest-spread',
+                'transform-react-jsx',
+
+                [
+                  'react-css-modules',
+                  {
+                    context,
+                    filetypes: {
+                      '.scss': {
+                        syntax: 'postcss-scss'
+                      }
+                    },
+                    generateScopedName
+                  }
+                ]
+              ]
+            }
+          },
+        ],
+        exclude: /node_modules/
+      },
+      {
+        include: path.resolve(__dirname, '../client'),
+        use: [
+          { loader: 'style-loader' },
+          {
+            loader: 'css-loader',
+            options: {
+              getLocalIdent: (contextParam, localIdentName, localName) => (
+                generateScopedName(localName, contextParam.resourcePath)
+              ),
+              importLoaders: 1,
+              minimize: true,
+              modules: true
+            }
+          },
+          { loader: 'sass-loader' },
+          {
+            loader: 'autoprefixer-loader',
+            options: {
+              browsers: 'last 4 version'
+            }
+          },
+          { loader: 'resolve-url-loader' }
+        ],
+        test: /\.scss?$/
+      },
       {
         test: /\.(jpe?g|png|gif|svg)$/i,
         loaders: [
@@ -29,13 +119,7 @@ module.exports = {
           'image-webpack-loader?bypassOnDebug&optimizationLevel=7&interlaced=false'
         ]
       },
-      {
-        test: /\.scss$/,
-        use: ExtractTextPlugin.extract({
-          fallback: 'style-loader',
-          use: ['css-loader?modules&importLoaders=2&localIdentName=[local]&sourceMap&minimize=true', 'sass-loader?outputStyle=expanded&sourceMap=true&sourceMapContents=true', 'autoprefixer-loader?browsers=last 2 version']
-        })
-      }
+      { test: /\.(eot|svg|ttf|woff|woff2)$/, loader: 'file-loader?name=[name].[ext]' },
     ]
   },
   resolve: {
@@ -43,15 +127,7 @@ module.exports = {
   },
   plugins: [
     new CleanPlugin([path.resolve('dist')], { root: path.resolve(__dirname, '../') }),
-    new ExtractTextPlugin('[name].css', {allChunks: true}),
     HtmlWebpackPluginConfig,
-    // optimizations
-    new OptimizeCssAssetsPlugin({
-      assetNameRegExp: /\.optimize\.css$/g,
-      cssProcessor: require('cssnano'),
-      cssProcessorOptions: { discardComments: {removeAll: true } },
-      canPrint: true
-    }),
     new webpack.optimize.OccurrenceOrderPlugin(),
     new webpack.optimize.UglifyJsPlugin({
       compress: {

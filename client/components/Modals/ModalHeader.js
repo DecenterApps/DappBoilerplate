@@ -1,13 +1,13 @@
+/* eslint-disable no-unused-vars */
 import React from 'react';
 import PropTypes from 'prop-types';
-
-const fStyle = require('../App/icon-font.scss');
-const mHStyle = require('./modals.scss');
+import is from '../App/icon-font.scss';
+import mhs from './modals.scss';
 
 const ModalHeader = ({ toggleModal }) => (
-  <div className={mHStyle['modal-header']}>
+  <div styleName="mhs.modal-header">
     <i
-      className={fStyle['icon-close']}
+      styleName="is.icon is.icon-close mhs.icon-close"
       role="button"
       tabIndex={0}
       onClick={() => { toggleModal('', {}, false); }}

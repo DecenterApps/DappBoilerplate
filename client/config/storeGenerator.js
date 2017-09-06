@@ -2,8 +2,17 @@ import thunk from 'redux-thunk';
 import { createStore, applyMiddleware } from 'redux';
 import reducers from '../reducers/index';
 
-const reduxDevToolsEnchancer = window.__REDUX_DEVTOOLS_EXTENSION__ && // eslint-disable-line
-  window.__REDUX_DEVTOOLS_EXTENSION__(); // eslint-disable-line
+let store = null;
+
 const createStoreWithMiddleware = applyMiddleware(thunk)(createStore);
 
-export default createStoreWithMiddleware(reducers, reduxDevToolsEnchancer);
+if (process.env === 'development') {
+  const reduxDevToolsEnchancer = window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__(); // eslint-disable-line
+  store = createStoreWithMiddleware(reducers, reduxDevToolsEnchancer);
+} else {
+  store = createStoreWithMiddleware(reducers);
+}
+
+const storeExport = store;
+
+export default storeExport;

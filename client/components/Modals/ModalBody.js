@@ -1,10 +1,9 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-
-const mBStyle = require('./modals.scss');
+import './modals.scss';
 
 const ModalBody = ({ children }) => (
-  <div className={mBStyle['modal-body']}>
+  <div styleName="modal-body">
     { children }
   </div>
 );

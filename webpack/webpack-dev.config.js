@@ -2,6 +2,14 @@ const path = require('path');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const webpack = require('webpack');
 
+const generateScopedName = (localName, resourcePath) => {
+  const componentName = resourcePath.split('/').slice(-2, -1);
+
+  return `${componentName}_${localName}`;
+};
+
+const context = path.resolve(__dirname, '../client');
+
 const HtmlWebpackPluginConfig = new HtmlWebpackPlugin({
   template: './client/index.html',
   filename: 'index.html',
@@ -17,8 +25,68 @@ module.exports = {
   },
   module: {
     loaders: [
-      { test: /\.js$/, loaders: ['babel-loader', 'eslint-loader'], exclude: /node_modules/ },
-      { test: /\.jsx$/, loaders: ['babel-loader', 'eslint-loader'], exclude: /node_modules/ },
+      {
+        test: /\.js[x]?$/,
+        include: path.resolve(__dirname, '../client'),
+        use: [
+          {
+            loader: 'babel-loader',
+            query: {
+              presets: ['es2015', 'react'],
+              plugins: [
+                'transform-object-rest-spread',
+                'transform-react-jsx',
+
+                [
+                  'react-css-modules',
+                  {
+                    context,
+                    filetypes: {
+                      '.scss': {
+                        syntax: 'postcss-scss'
+                      }
+                    },
+                    generateScopedName
+                  }
+                ]
+              ]
+            }
+          },
+        ],
+        exclude: /node_modules/
+      },
+      {
+        include: path.resolve(__dirname, '../client'),
+        use: [
+          { loader: 'style-loader' },
+          {
+            loader: 'css-loader',
+            options: {
+              getLocalIdent: (contextParam, localIdentName, localName) => (
+                generateScopedName(localName, contextParam.resourcePath)
+              ),
+              importLoaders: 2,
+              modules: true,
+              sourceMap: true
+            }
+          },
+          {
+            loader: 'sass-loader',
+            options: {
+              outputStyle: 'expanded',
+              sourceMap: true
+            }
+          },
+          {
+            loader: 'autoprefixer-loader',
+            options: {
+              browsers: 'last 4 version'
+            }
+          },
+          { loader: 'resolve-url-loader' }
+        ],
+        test: /\.scss?$/
+      },
       {
         test: /\.(jpe?g|png|gif|svg)$/i,
         loaders: [
@@ -26,10 +94,7 @@ module.exports = {
           'image-webpack-loader?bypassOnDebug&optimizationLevel=7&interlaced=false'
         ]
       },
-      {
-        test: /\.scss$/,
-        loader: 'style-loader!css-loader?modules&importLoaders=2&sourceMap&localIdentName=[local]!autoprefixer-loader?browsers=last 2 version!sass-loader?outputStyle=expanded&sourceMap'
-      }
+      { test: /\.(eot|svg|ttf|woff|woff2)$/, loader: 'file-loader?name=[name].[ext]' },
     ]
   },
   resolve: {
@@ -38,9 +103,7 @@ module.exports = {
   plugins: [
     HtmlWebpackPluginConfig,
     new webpack.DefinePlugin({
-      'process.env': {
-        env: '"development"'
-      }
+      process: { env: '"development"' }
     })
   ]
 };

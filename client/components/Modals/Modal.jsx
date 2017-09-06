@@ -1,7 +1,7 @@
 import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 
-const mStyle = require('./modals.scss');
+import './modals.scss';
 
 class Modal extends PureComponent {
   constructor(props) {
@@ -35,14 +35,14 @@ class Modal extends PureComponent {
   render() {
     return (
       <div
-        className={`${mStyle['modal-backdrop']} ${this.props.modalOpen ? mStyle.open : ''}`}
+        styleName={`modal-backdrop ${this.props.modalOpen ? 'open' : ''}`}
         role="button"
         tabIndex={0}
         onClick={() => { this.props.toggleModal('', {}, false); }}
       >
         <div
           role="dialog"
-          className={mStyle.modal}
+          styleName="modal"
           onClick={(e) => { e.stopPropagation(); }}
         >
           {this.state.children}

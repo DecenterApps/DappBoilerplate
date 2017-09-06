@@ -5,7 +5,7 @@ const NoMetamask = ({ isChrome }) => (
   <div>
     {
       isChrome &&
-      <div className="browser-wrapper">
+      <div>
         <h2>
           In order to use this app you need to install the
           <a href="https://chrome.google.com/webstore/detail/metamask/nkbihfbeogaeaoehlefnkodbefgpgknn?hl=en">Metamask</a>
@@ -15,7 +15,7 @@ const NoMetamask = ({ isChrome }) => (
     }
     {
       !isChrome &&
-      <div className="browser-wrapper not-chrome">
+      <div>
         <h2>
           In order to use this app you must access it
           through the Chrome web browser

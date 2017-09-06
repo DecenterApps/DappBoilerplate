@@ -1,20 +1,21 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import '../App/app.scss';
 
 const InputComponent = ({
   input, placeholder, wrapperClassName, inputClassName, errorClassName, showErrorText,
   type, id, showLabel, labelText, labelClass, meta: { touched, error }
 }) => (
-  <div className={wrapperClassName}>
+  <div styleName={wrapperClassName}>
     <input
       {...input}
       placeholder={placeholder}
       id={id || ''}
-      className={`${inputClassName} ${touched && error ? errorClassName : ''}`}
+      styleName={`${inputClassName} ${touched && error ? errorClassName : ''}`}
       type={type}
     />
-    {showLabel && <label className={labelClass} htmlFor={id || ''}>{ labelText }</label>}
-    {touched && ((error && showErrorText && <div className={errorClassName}>{error}</div>))}
+    {showLabel && <label styleName={labelClass} htmlFor={id || ''}>{ labelText }</label>}
+    {touched && ((error && showErrorText && <div styleName={errorClassName}>{error}</div>))}
   </div>
 );
 

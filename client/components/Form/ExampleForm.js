@@ -3,6 +3,7 @@ import { Field, reduxForm } from 'redux-form';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import InputComponent from './InputComponent';
+import './forms.scss';
 
 const exampleFormValidator = (values) => {
   const errors = {};
@@ -12,8 +13,6 @@ const exampleFormValidator = (values) => {
 
   return errors;
 };
-
-require('./forms.scss');
 
 let ExampleForm = ({ handleSubmit, pristine, invalid }) => (
   <form onSubmit={handleSubmit}>
@@ -40,7 +39,7 @@ let ExampleForm = ({ handleSubmit, pristine, invalid }) => (
     />
 
     <button
-      className="submit-button"
+      styleName="submit-button"
       type="submit"
       disabled={pristine || invalid}
     >
