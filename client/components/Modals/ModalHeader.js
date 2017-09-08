@@ -1,7 +1,7 @@
 /* eslint-disable no-unused-vars */
 import React from 'react';
 import PropTypes from 'prop-types';
-import is from '../App/icon-font.scss';
+import is from '../../modules/icon-font.scss';
 import mhs from './modals.scss';
 
 const ModalHeader = ({ toggleModal }) => (
