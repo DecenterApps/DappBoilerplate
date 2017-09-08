@@ -14,3 +14,6 @@ to build production files run ```yarn prod```. Production code will be generated
 
 if you want to run any of these commands without eslint run them with the addition of ```-no-lint``` example: ```yarn dev-server-no-lint```
 
+### Truffle
+
+The truffle framework is included with this boilerplate. See all Truffle commands [here](http://truffleframework.com/docs/advanced/commands)  
