@@ -5,7 +5,7 @@ import Tooltip from 'react-tooltip-lite';
 import { increment } from '../../actions/counterActions';
 import ModalRoot, { EXAMPLE_MODAL } from '../Modals/ModalRoot';
 import toggleModal from '../../actions/modalsActions';
-import ExampleForm from '../Form/ExampleForm';
+import ExampleForm from '../Forms/ExampleForm/ExampleForm';
 
 import './app.scss';
 

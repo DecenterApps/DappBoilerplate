@@ -2,8 +2,8 @@ import React from 'react';
 import { Field, reduxForm } from 'redux-form';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
-import InputComponent from './InputComponent';
-import formStyle from './forms.scss';
+import InputComponent from '../InputComponent';
+import formStyle from '../forms.scss';
 
 const exampleFormValidator = (values) => {
   const errors = {};
