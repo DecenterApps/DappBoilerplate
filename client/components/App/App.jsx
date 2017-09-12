@@ -6,8 +6,23 @@ import { increment } from '../../actions/counterActions';
 import ModalRoot, { EXAMPLE_MODAL } from '../Modals/ModalRoot';
 import toggleModal from '../../actions/modalsActions';
 import ExampleForm from '../Forms/ExampleForm/ExampleForm';
+import * as ethService from '../../modules/ethereumService'; // eslint-disable-line
 
 import './app.scss';
+
+// setTimeout(() => {
+//   ethService.set(1).then((data) => {
+//     console.log('SET SUCCESS', data);
+//   }).catch((err) => {
+//     console.log('SET ERR', err);
+//   });
+// }, 1000);
+//
+// setTimeout(() => {
+//   ethService.get().then((data) => {
+//     console.log('GET SUCCESS', parseFloat(data));
+//   });
+// }, 20000);
 
 const App = ({ $increment, counter, $toggleModal }) => (
   <div styleName="app">
