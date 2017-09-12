@@ -4,15 +4,7 @@ import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import InputComponent from '../InputComponent';
 import formStyle from '../forms.scss';
-
-const exampleFormValidator = (values) => {
-  const errors = {};
-
-  if (!values.username) errors.username = 'Required';
-  if (!values.password) errors.password = 'Required';
-
-  return errors;
-};
+import exampleFormValidator from './exampleFormValidator';
 
 let ExampleForm = ({ handleSubmit, pristine, invalid }) => (
   <form onSubmit={handleSubmit} styleName="form-wrapper">
